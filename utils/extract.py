@@ -22,13 +22,13 @@ class Extract:
         scope = ["https://spreadsheets.google.com/feeds",
                 "https://www.googleapis.com/auth/drive"]
 
-        # credentials = service_account.Credentials.from_service_account_info(
-        # st.secrets["gcp_service_account"], scopes=scope)
+        credentials = service_account.Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"], scopes=scope)
 
-        path = os.getenv("PATH_TO_CREDENTIALS")
-        print(path)
+        # path = os.getenv("PATH_TO_CREDENTIALS")
+        # print(path)
 
-        credentials = service_account.Credentials.from_service_account_file(f"{path}", scopes=scope)
+        # credentials = service_account.Credentials.from_service_account_file(f"{path}", scopes=scope)
 
         # Create a client to interact with Google Sheets using the credentials
         clients = Client(scope=scope, creds=credentials)
