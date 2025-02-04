@@ -11,6 +11,9 @@ def app():
 
     # Cargar los datos
     data = Extract.load_data("Base_de_datos_clientes","clientes")
+    data_button = st.button("Volver a cargar datos")
+    if data_button:
+        data = Extract.load_data("Base_de_datos_clientes", "clientes")
 
 
     # Extraer valores únicos de la columna 'nombre'
@@ -109,16 +112,13 @@ def app():
                                         "ARTES, ENTRETENIMIENTO Y RECREACIÓN", "OTRAS ACTIVIDADES DE SERVICIO",
                                         "ACTIVIDADES DE LOS HOGARES COMO EMPLEADORES; ACTIVIDADES DE PRODUCCIÓN DE BIENES Y SERVICIOS NO DIFERENCIADOS DE LOS HOGARES PARA USO PROPIO",
                                         "ACTIVIDADES DE ORGANIZACIONES Y ORGANISMOS EXTRATERRITORIALES"))
-            route = st.text_input("Ruta potencial para este cliente")
+            route = "Todas"
             route = Transform.capital_letters(route)
             exit_price = st.number_input("Precio unitario de salida", min_value=0.0,value=None,step=0.01)
             km_price = st.number_input("Precio por kilómetro",min_value=0.0,value=None,step=0.01)
             crane_price = st.number_input("Precio unitario de trabajo de grúa", min_value=0.0,value=None,step=0.01)
             discharge_price = st.number_input("Precio unitario por descarga", min_value=0.0,value=None,step=0.01)
-            exit_price_ms = st.number_input("Precio unitario de salida (servicio mínimo)", min_value=0.0,value=None,step=0.01)
-            km_price_ms = st.number_input("Precio por kilómetro (servicio mínimo)",min_value=0.0,value=None,step=0.01)
-            crane_price_ms = st.number_input("Precio unitario de trabajo de grúa (servicio mínimo)", min_value=0.0,value=None,step=0.01)
-            discharge_price_ms = st.number_input("Precio unitario por descarga (servicio mínimo)", min_value=0.0,value=None,step=0.01)
+            minimum_service_price = st.number_input("Precio  por servicio mínimo", min_value=0.0,value=None,step=0.01)
             date = st.date_input("Fecha actual", format="DD/MM/YYYY")
             info = st.text_area("Información Adicional")
             info = Transform.capital_letters(info)
@@ -134,7 +134,7 @@ def app():
             if transformed_name and email and phone and address and code and city and country:
                 row = [customer_id, transformed_name, contact_name, cif, email, other_emails, phone, contact_phone,address, code, municipality, city, country, n_employees, industry, date_str, info, version, ingestion_date_str]
                 saving_ready = True
-                row_for_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,exit_price_ms,km_price_ms,crane_price_ms,discharge_price_ms, date_str,version, ingestion_date_str]
+                row_for_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version, ingestion_date_str]
             elif not transformed_name:
                 st.warning("¡Revisa la razón social!")
                 saving_ready = False
