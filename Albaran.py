@@ -65,7 +65,7 @@ def app():
                     df_price_filtered = prices[prices['razón_social'] == company_name]
                     # df_max_p = df_price_filtered.loc[df_price_filtered['versión'].idxmax()]
                     df_max_p = df_price_filtered.loc[ df_price_filtered['versión'].idxmax()]
-                    print("df_price_filtered failed")
+                    print(df_max_p)
 
                     # Reset the index for a clean result if needed
                     df_max_p = df_max_p.reset_index(drop=True)
