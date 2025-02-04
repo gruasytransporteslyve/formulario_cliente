@@ -17,7 +17,10 @@ def app():
     data = Extract.load_data("Base_de_datos_clientes", "clientes")
     albaran = Extract.load_data("Base_de_datos_clientes", "albarán")
     prices = Extract.load_data("Base_de_datos_clientes", "precios unitarios")
-
+    data_button = st.button("Volver a cargar datos")
+    if data_button:
+        st.cache_data.clear()  # Clear the cache
+        st.experimental_rerun()
 
     if not data.empty:
     # Extraer valores únicos de la columna 'nombre'
@@ -62,11 +65,13 @@ def app():
                     df_price_filtered = prices[prices['razón_social'] == company_name]
                     # df_max_p = df_price_filtered.loc[df_price_filtered['versión'].idxmax()]
                     df_max_p = df_price_filtered.loc[ df_price_filtered['versión'].idxmax()]
+                    print(df_max_p)
 
                     # Reset the index for a clean result if needed
                     df_max_p = df_max_p.reset_index(drop=True)
 
                 except:
+                    print("df_price_filtered failed")
                     df_price_filtered = pd.DataFrame()
 
 
