@@ -14,8 +14,8 @@ def app():
     prices = Extract.load_data("Base_de_datos_clientes", "precios unitarios")
     data_button = st.button("Volver a cargar datos")
     if data_button:
-        data = Extract.load_data("Base_de_datos_clientes", "clientes")
-        prices = Extract.load_data("Base_de_datos_clientes", "precios unitarios")
+        st.cache_data.clear()  # Clear the cache
+        st.experimental_rerun()
 
 
     # Extraer valores únicos de la columna 'nombre'

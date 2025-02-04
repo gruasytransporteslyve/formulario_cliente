@@ -13,7 +13,8 @@ def app():
     data = Extract.load_data("Base_de_datos_clientes","clientes")
     data_button = st.button("Volver a cargar datos")
     if data_button:
-        data = Extract.load_data("Base_de_datos_clientes", "clientes")
+        st.cache_data.clear()  # Clear the cache
+        st.experimental_rerun()
 
 
     # Extraer valores únicos de la columna 'nombre'
