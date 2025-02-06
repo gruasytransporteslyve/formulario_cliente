@@ -20,7 +20,7 @@ def app():
     data_button = st.button("Volver a cargar datos")
     if data_button:
         st.cache_data.clear()  # Clear the cache
-        st.experimental_rerun()
+        st.write("Refresca la página")
 
     if not data.empty:
     # Extraer valores únicos de la columna 'nombre'
@@ -128,11 +128,11 @@ def app():
 
 
                 if not df_price_filtered.empty and not minimum_service:
-                    price_exit_units = float(df_max_p['precio_unidad_salida'])
-                    price_km_units = float(df_max_p['precio_kilómetro'])
-                    price_crane = float(df_max_p['precio_trabajo_grúa'])
-                    price_discharge_units = float(df_max_p['precio_descarga'])
-                    price_minimum_service = float(df_max_p['precio_servicio_mínimo'])
+                    price_exit_units = float(df_max_p['precio_unidad_salida'].iloc[0])
+                    price_km_units = float(df_max_p['precio_kilómetro'].iloc[0])
+                    price_crane = float(df_max_p['precio_trabajo_grúa'].iloc[0])
+                    price_discharge_units = float(df_max_p['precio_descarga'].iloc[0])
+                    price_minimum_service = float(df_max_p['precio_servicio_mínimo'].iloc[0])
 
                     total_price = price_exit_units * exit_units + price_km_units * km_units + price_crane * crane + price_discharge_units * discharge_units
                 elif not df_price_filtered.empty and minimum_service:
