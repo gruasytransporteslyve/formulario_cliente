@@ -15,8 +15,7 @@ def app():
     data_button = st.button("Volver a cargar datos")
     if data_button:
         st.cache_data.clear()  # Clear the cache
-        st.experimental_rerun()
-
+        st.write("Refresca la página")
 
     # Extraer valores únicos de la columna 'nombre'
     df_unique = data['razón_social'].drop_duplicates()
@@ -154,6 +153,8 @@ def app():
             complete_general_information = True
 
         n_employees = df_max_v['n_empleados']
+        if n_employees == "":
+            n_employees=0
         if "Número de empleados" in selected_fields:
             n_employees_input = st.number_input(f"Número de empleados (Actual: {df_max_v['n_empleados']}):",step=1, min_value=0,value=None)
             # Check for empty input before conversion
@@ -186,39 +187,39 @@ def app():
             elif (("Precio por unidad de salida" in selected_fields or "Precio por kilómetro" in selected_fields or
                 "Precio unitario de trabajo de grúa" in selected_fields or "Precio por unidad de descarga" in selected_fields  or "Precio por servicio mínimo" in selected_fields) and "Nuevos Precios" not in selected_fields):
 
-                version_price = int(df_max_p["versión"]) + 1
+                version_price = int(df_max_p["versión"].iloc[0]) + 1
 
                 route = "TODAS"
 
-                exit_price = float(df_max_p["precio_unidad_salida"])
+                exit_price = float(df_max_p["precio_unidad_salida"].iloc[0])
                 if "Precio por unidad de salida" in selected_fields:
                     exit_price_input = st.number_input(f"Precio unitario de salida (Actual: {float(df_max_p['precio_unidad_salida'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
                     exit_price = float(exit_price_input) if exit_price_input else float(df_max_p["precio_unidad_salida"])
                     complete_price_information = True
 
-                km_price = float(df_max_p["precio_kilómetro"])
+                km_price = float(df_max_p["precio_kilómetro"].iloc[0])
                 if "Precio por kilómetro" in selected_fields:
                     km_price_input = st.number_input(f"Precio por kilómetro (Actual: {float(df_max_p['precio_kilómetro'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
                     km_price = float(km_price_input) if km_price_input else float(df_max_p["precio_kilómetro"])
                     complete_price_information = True
 
-                crane_price = float(df_max_p["precio_trabajo_grúa"])
+                crane_price = float(df_max_p["precio_trabajo_grúa"].iloc[0])
                 if "Precio unitario de trabajo de grúa" in selected_fields:
                     crane_price_input = st.number_input(f"Precio unitario de trabajo de grúa (Actual: {float(df_max_p['precio_trabajo_grúa'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
                     crane_price = float(crane_price_input) if crane_price_input else float(df_max_p["precio_trabajo_grúa"])
                     complete_price_information = True
 
-                discharge_price = float(df_max_p["precio_descarga"])
+                discharge_price = float(df_max_p["precio_descarga"].iloc[0])
                 if "Precio por unidad de descarga" in selected_fields:
                     discharge_price_input = st.number_input(f"Precio por unidad de descarga (Actual: {float(df_max_p['precio_descarga'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
                     discharge_price = float(discharge_price_input) if discharge_price_input else float(df_max_p["precio_descarga"])
                     complete_price_information = True
 
-                minimum_service_price = float(df_max_p["precio_servicio_mínimo"])
+                minimum_service_price = float(df_max_p["precio_servicio_mínimo"].iloc[0])
                 if "Precio por servicio mínimo" in selected_fields:
                     minimum_service_price = st.number_input(f"Precio por servicio mínimo (Actual: {float(df_max_p['precio_servicio_mínimo'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion

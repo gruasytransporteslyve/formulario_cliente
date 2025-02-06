@@ -14,7 +14,7 @@ def app():
     data_button = st.button("Volver a cargar datos")
     if data_button:
         st.cache_data.clear()  # Clear the cache
-        st.experimental_rerun()
+        st.write("Refresca la página")
 
 
     # Extraer valores únicos de la columna 'nombre'
