@@ -33,14 +33,13 @@ def app():
             df_max_p = df_price_filtered.loc[df_price_filtered['versión'].idxmax()]
 
             # Reset the index for a clean result if needed
-            df_max_p = df_max_p.reset_index(drop=True)
+            # df_max_p = df_max_p.reset_index(drop=True)
 
         except:
             df_price_filtered = pd.DataFrame()
 
         # Mostrar los detalles del cliente con la versión máxima
         df_max_v = df_filtered.loc[df_filtered['versión'].idxmax()]
-        print(df_max_v)
 
 
         st.write(f"Has seleccionado la compañía: {df_max_v['razón_social']}")
@@ -191,7 +190,7 @@ def app():
 
                 route = "TODAS"
 
-                exit_price = float(df_max_p.loc["precio_unidad_salida"])
+                exit_price = float(df_max_p["precio_unidad_salida"])
                 if "Precio por unidad de salida" in selected_fields:
                     exit_price_input = st.number_input(f"Precio unitario de salida (Actual: {float(df_max_p.loc['precio_unidad_salida'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
