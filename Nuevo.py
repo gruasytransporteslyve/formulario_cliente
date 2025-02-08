@@ -11,10 +11,7 @@ def app():
 
     # Cargar los datos
     data = Extract.load_data("Base_de_datos_clientes","clientes")
-    data_button = st.button("Volver a cargar datos")
-    if data_button:
-        st.cache_data.clear()  # Clear the cache
-        st.write("Refresca la página")
+
 
 
     # Extraer valores únicos de la columna 'nombre'

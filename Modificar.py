@@ -12,10 +12,7 @@ def app():
 
     data = Extract.load_data("Base_de_datos_clientes", "clientes")
     prices = Extract.load_data("Base_de_datos_clientes", "precios unitarios")
-    data_button = st.button("Volver a cargar datos")
-    if data_button:
-        st.cache_data.clear()  # Clear the cache
-        st.write("Refresca la página")
+
 
     # Extraer valores únicos de la columna 'nombre'
     df_unique = data['razón_social'].drop_duplicates()
@@ -186,43 +183,43 @@ def app():
             elif (("Precio por unidad de salida" in selected_fields or "Precio por kilómetro" in selected_fields or
                 "Precio unitario de trabajo de grúa" in selected_fields or "Precio por unidad de descarga" in selected_fields  or "Precio por servicio mínimo" in selected_fields) and "Nuevos Precios" not in selected_fields):
 
-                version_price = int(df_max_p.loc["versión"]) + 1
+                version_price = int(df_max_p["versión"]) + 1
 
                 route = "TODAS"
 
                 exit_price = float(df_max_p["precio_unidad_salida"])
                 if "Precio por unidad de salida" in selected_fields:
-                    exit_price_input = st.number_input(f"Precio unitario de salida (Actual: {float(df_max_p.loc['precio_unidad_salida'])}):", min_value=0.0,step=0.01,value=None)
+                    exit_price_input = st.number_input(f"Precio unitario de salida (Actual: {float(df_max_p['precio_unidad_salida'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
-                    exit_price = float(exit_price_input) if exit_price_input else float(df_max_p.loc["precio_unidad_salida"])
+                    exit_price = float(exit_price_input) if exit_price_input else float(df_max_p["precio_unidad_salida"])
                     complete_price_information = True
 
-                km_price = float(df_max_p.loc["precio_kilómetro"])
+                km_price = float(df_max_p["precio_kilómetro"])
                 if "Precio por kilómetro" in selected_fields:
-                    km_price_input = st.number_input(f"Precio por kilómetro (Actual: {float(df_max_p.loc['precio_kilómetro'])}):", min_value=0.0,step=0.01,value=None)
+                    km_price_input = st.number_input(f"Precio por kilómetro (Actual: {float(df_max_p['precio_kilómetro'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
-                    km_price = float(km_price_input) if km_price_input else float(df_max_p.loc["precio_kilómetro"])
+                    km_price = float(km_price_input) if km_price_input else float(df_max_p["precio_kilómetro"])
                     complete_price_information = True
 
-                crane_price = float(df_max_p.loc["precio_trabajo_grúa"])
+                crane_price = float(df_max_p["precio_trabajo_grúa"])
                 if "Precio unitario de trabajo de grúa" in selected_fields:
-                    crane_price_input = st.number_input(f"Precio unitario de trabajo de grúa (Actual: {float(df_max_p.loc['precio_trabajo_grúa'])}):", min_value=0.0,step=0.01,value=None)
+                    crane_price_input = st.number_input(f"Precio unitario de trabajo de grúa (Actual: {float(df_max_p['precio_trabajo_grúa'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
-                    crane_price = float(crane_price_input) if crane_price_input else float(df_max_p.loc["precio_trabajo_grúa"])
+                    crane_price = float(crane_price_input) if crane_price_input else float(df_max_p["precio_trabajo_grúa"])
                     complete_price_information = True
 
-                discharge_price = float(df_max_p.loc["precio_descarga"])
+                discharge_price = float(df_max_p["precio_descarga"])
                 if "Precio por unidad de descarga" in selected_fields:
-                    discharge_price_input = st.number_input(f"Precio por unidad de descarga (Actual: {float(df_max_p.loc['precio_descarga'])}):", min_value=0.0,step=0.01,value=None)
+                    discharge_price_input = st.number_input(f"Precio por unidad de descarga (Actual: {float(df_max_p['precio_descarga'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
-                    discharge_price = float(discharge_price_input) if discharge_price_input else float(df_max_p.loc["precio_descarga"])
+                    discharge_price = float(discharge_price_input) if discharge_price_input else float(df_max_p["precio_descarga"])
                     complete_price_information = True
 
-                minimum_service_price = float(df_max_p.loc["precio_servicio_mínimo"])
+                minimum_service_price = float(df_max_p["precio_servicio_mínimo"])
                 if "Precio por servicio mínimo" in selected_fields:
-                    minimum_service_price = st.number_input(f"Precio por servicio mínimo (Actual: {float(df_max_p.loc['precio_servicio_mínimo'])}):", min_value=0.0,step=0.01,value=None)
+                    minimum_service_price = st.number_input(f"Precio por servicio mínimo (Actual: {float(df_max_p['precio_servicio_mínimo'])}):", min_value=0.0,step=0.01,value=None)
                     # Check for empty input before conversion
-                    minimum_service_price = float(exit_price_input) if exit_price_input else float(df_max_p.loc["precio_servicio_mínimo"])
+                    minimum_service_price = float(exit_price_input) if exit_price_input else float(df_max_p["precio_servicio_mínimo"])
                     complete_price_information = True
 
                 row_for_price = [customer_id, company_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, version_price]
@@ -243,7 +240,7 @@ def app():
 
                 if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                     complete_price_information = True
-                    version_price = int(df_max_p.loc["versión"]) + 1
+                    version_price = int(df_max_p["versión"]) + 1
                     row_for_price = [customer_id, company_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, version_price]
                 else: st.warning("Rellena toda la información sobre precios")
 
@@ -259,7 +256,7 @@ def app():
                 minimum_service_price = st.number_input("Precio unitario por servicio mínimo", min_value=0.0,value=None,step=0.01)
                 if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                     complete_price_information = True
-                    version_price = int(df_max_p.loc["versión"]) + 1
+                    version_price = int(df_max_p["versión"]) + 1
                     row_for_price = [customer_id, company_name,route_input, exit_price,km_price,crane_price,discharge_price,minimum_service_price, version_price]
                 else: st.warning("Rellena toda la información sobre precios")
 
