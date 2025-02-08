@@ -69,7 +69,6 @@ def app():
 
                     # Reset the index for a clean result if needed
                     df_max_p = df_max_p.reset_index(drop=True)
-                    df_max_p = pd.DataFrame(df_max_p)
 
                 except:
                     print("df_price_filtered failed")
@@ -129,11 +128,11 @@ def app():
 
 
                 if not df_price_filtered.empty and not minimum_service:
-                    price_exit_units = float(df_max_p['precio_unidad_salida'])
-                    price_km_units = float(df_max_p['precio_kilómetro'])
-                    price_crane = float(df_max_p['precio_trabajo_grúa'])
-                    price_discharge_units = float(df_max_p['precio_descarga'])
-                    price_minimum_service = float(df_max_p['precio_servicio_mínimo'])
+                    price_exit_units = float(df_max_p.loc['precio_unidad_salida'])
+                    price_km_units = float(df_max_p.loc['precio_kilómetro'])
+                    price_crane = float(df_max_p.loc['precio_trabajo_grúa'])
+                    price_discharge_units = float(df_max_p.loc['precio_descarga'])
+                    price_minimum_service = float(df_max_p.loc['precio_servicio_mínimo'])
 
                     total_price = price_exit_units * exit_units + price_km_units * km_units + price_crane * crane + price_discharge_units * discharge_units
                 elif not df_price_filtered.empty and minimum_service:
@@ -412,11 +411,11 @@ def app():
                 if not df_price_filtered.empty:
                     route = st.text_input('Indica la ruta para este trabajo:')
                     route = Transform.capital_letters(route)
-                    price_exit_units = float(df_max_p['precio_unidad_salida'])
-                    price_km_units = float(df_max_p['precio_kilómetro'])
-                    price_crane = float(df_max_p['precio_trabajo_grúa'])
-                    price_discharge_units = float(df_max_p['precio_descarga'])
-                    price_minimum_service = float(df_max_p['precio_servicio_mínimo'])
+                    price_exit_units = float(df_max_p.loc['precio_unidad_salida'])
+                    price_km_units = float(df_max_p.loc['precio_kilómetro'])
+                    price_crane = float(df_max_p.loc['precio_trabajo_grúa'])
+                    price_discharge_units = float(df_max_p.loc['precio_descarga'])
+                    price_minimum_service = float(df_max_p.loc['precio_servicio_mínimo'])
 
                     complete_information_price = True
 
