@@ -178,91 +178,91 @@ def app():
                         row.append(estimation)
 
                 # Form for submission
-                with st.form(key='company_form', clear_on_submit=True):
-                    submit_button = st.form_submit_button(label='¡Listo!')
+            with st.form(key='company_form', clear_on_submit=True):
+                submit_button = st.form_submit_button(label='¡Listo!')
 
-                    if submit_button and consent and canvas_result.image_data is not None and complete_information:
-                        Load().append_row("Base_de_datos_clientes", "albarán", row)
-                        if complete_information_price:
-                            Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
+                if submit_button and consent and canvas_result.image_data is not None and complete_information:
+                    Load().append_row("Base_de_datos_clientes", "albarán", row)
+                    if complete_information_price:
+                        Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
 
-                        customer_details ={
-                            "[Date]":str(date_str),
-                            "[albarán_id]": str(albaran_id),
-                            "[Company]":str(company_name),
-                            "[Address]":str(df_max_v['domicilio']),
-                            "[City]":str(df_max_v['provincia']),
-                            "[Code]":str(df_max_v['codigo_postal']),
-                            "[Cif]":str(df_max_v['cif'])
-                        }
-                        folder_id = st.secrets["folder_id"]
+                    customer_details ={
+                        "[Date]":str(date_str),
+                        "[albarán_id]": str(albaran_id),
+                        "[Company]":str(company_name),
+                        "[Address]":str(df_max_v['domicilio']),
+                        "[City]":str(df_max_v['provincia']),
+                        "[Code]":str(df_max_v['codigo_postal']),
+                        "[Cif]":str(df_max_v['cif'])
+                    }
+                    folder_id = st.secrets["folder_id"]
 
-                        document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(company_name))
-                        Transform.rename_file_in_drive(document_id,albaran_id,date_str)
-                        new_document_id = Transform.convert_to_google_docs(document_id, True)
-                        Load.replace_placeholders_in_doc(new_document_id,customer_details)
+                    document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(company_name))
+                    Transform.rename_file_in_drive(document_id,albaran_id,date_str)
+                    new_document_id = Transform.convert_to_google_docs(document_id, True)
+                    Load.replace_placeholders_in_doc(new_document_id,customer_details)
 
-                        result_dict = {
-                                "[Route]":str(route),
-                                "[Work done]": str(description),
-                                "[Obs]":str(obs),
-                                "[Exit]":str(exit_units),
-                                "[Km]":str(km_units),
-                                "[Crane]":str(crane),
-                                "[Discharge]":str(discharge_units)
-                                }
+                    result_dict = {
+                            "[Route]":str(route),
+                            "[Work done]": str(description),
+                            "[Obs]":str(obs),
+                            "[Exit]":str(exit_units),
+                            "[Km]":str(km_units),
+                            "[Crane]":str(crane),
+                            "[Discharge]":str(discharge_units)
+                            }
 
-                        result_dict["[dni]"] = str(dni)
-                        result_dict["[price]"] = str(estimation)
-                        print(result_dict)
-                        Load.replace_placeholders_in_doc(new_document_id,result_dict)
-                        image_id, image_link= Load.upload_image_to_google_drive(canvas_result)
-                        Load.insert_image_in_document(new_document_id, image_link)
-                        Extract.delete_file_from_image_url(image_link)
-                        Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
-                        # Extract.delete_file_from_google_drive(new_document_id)
+                    result_dict["[dni]"] = str(dni)
+                    result_dict["[price]"] = str(estimation)
+                    print(result_dict)
+                    Load.replace_placeholders_in_doc(new_document_id,result_dict)
+                    image_id, image_link= Load.upload_image_to_google_drive(canvas_result)
+                    Load.insert_image_in_document(new_document_id, image_link)
+                    Extract.delete_file_from_image_url(image_link)
+                    Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
+                    # Extract.delete_file_from_google_drive(new_document_id)
 
-                        st.success("¡Guardado con éxito!")
+                    st.success("¡Guardado con éxito!")
 
-                    elif submit_button and consent==False and complete_information:
-                        Load().append_row("Base_de_datos_clientes", "albarán", row)
-                        if complete_information_price:
-                            Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
-                        customer_details ={
-                            "[Date]":str(date_str),
-                            "[albarán_id]": str(albaran_id),
-                            "[Company]":str(company_name),
-                            "[Address]":str(df_max_v['domicilio']),
-                            "[City]":str(df_max_v['provincia']),
-                            "[Code]":str(df_max_v['codigo_postal']),
-                            "[Cif]":str(df_max_v['cif'])
-                        }
-                        folder_id = st.secrets["folder_id"]
+                elif submit_button and consent==False and complete_information:
+                    Load().append_row("Base_de_datos_clientes", "albarán", row)
+                    if complete_information_price:
+                        Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
+                    customer_details ={
+                        "[Date]":str(date_str),
+                        "[albarán_id]": str(albaran_id),
+                        "[Company]":str(company_name),
+                        "[Address]":str(df_max_v['domicilio']),
+                        "[City]":str(df_max_v['provincia']),
+                        "[Code]":str(df_max_v['codigo_postal']),
+                        "[Cif]":str(df_max_v['cif'])
+                    }
+                    folder_id = st.secrets["folder_id"]
 
-                        document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(company_name))
-                        Transform.rename_file_in_drive(document_id,albaran_id,date_str)
-                        new_document_id = Transform.convert_to_google_docs(document_id, True)
-                        Load.replace_placeholders_in_doc(new_document_id,customer_details)
+                    document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(company_name))
+                    Transform.rename_file_in_drive(document_id,albaran_id,date_str)
+                    new_document_id = Transform.convert_to_google_docs(document_id, True)
+                    Load.replace_placeholders_in_doc(new_document_id,customer_details)
 
-                        result_dict = {
-                                "[Route]":str(route),
-                                "[Work done]": str(description),
-                                "[Obs]":str(obs),
-                                "[Exit]":str(exit_units),
-                                "[Km]":str(km_units),
-                                "[Crane]":str(crane),
-                                "[Discharge]":str(discharge_units)
-                                }
+                    result_dict = {
+                            "[Route]":str(route),
+                            "[Work done]": str(description),
+                            "[Obs]":str(obs),
+                            "[Exit]":str(exit_units),
+                            "[Km]":str(km_units),
+                            "[Crane]":str(crane),
+                            "[Discharge]":str(discharge_units)
+                            }
 
-                        result_dict["[dni]"] = str(" ")
-                        result_dict["[price]"] = str(estimation)
+                    result_dict["[dni]"] = str(" ")
+                    result_dict["[price]"] = str(estimation)
 
-                        print(result_dict)
-                        Load.replace_placeholders_in_doc(new_document_id,result_dict)
-                        Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
-                        # Extract.delete_file_from_google_drive(new_document_id)
+                    print(result_dict)
+                    Load.replace_placeholders_in_doc(new_document_id,result_dict)
+                    Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
+                    # Extract.delete_file_from_google_drive(new_document_id)
 
-                        st.success("¡Guardado con éxito!")
+                    st.success("¡Guardado con éxito!")
 
         else:
             st.warning("No se encontraron datos para la compañía seleccionada.")
@@ -570,102 +570,102 @@ def app():
                 )
 
 
-                # Form for submission
-                with st.form(key='company_form', clear_on_submit=True):
-                    submit_button = st.form_submit_button(label='¡Listo!')
+            # Form for submission
+            with st.form(key='company_form', clear_on_submit=True):
+                submit_button = st.form_submit_button(label='¡Listo!')
 
-                    if submit_button and consent and canvas_result.image_data is not None and complete_information and saving_ready:
-                        Load().append_row("Base_de_datos_clientes", "clientes", row_creation)
-                        Load().append_row("Base_de_datos_clientes", "albarán", row)
-                        if complete_information_price:
-                            Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
+                if submit_button and consent and canvas_result.image_data is not None and complete_information and saving_ready:
+                    Load().append_row("Base_de_datos_clientes", "clientes", row_creation)
+                    Load().append_row("Base_de_datos_clientes", "albarán", row)
+                    if complete_information_price:
+                        Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
 
-                        customer_details ={
-                            "[Date]":str(date_str),
-                            "[albarán_id]": str(albaran_id),
-                            "[Company]":str(company_name),
-                            "[Address]":str(address),
-                            "[City]":str(municipality),
-                            "[Code]":str(code),
-                            "[Cif]":str(cif)
-                        }
-                        folder_id = st.secrets["folder_id"]
+                    customer_details ={
+                        "[Date]":str(date_str),
+                        "[albarán_id]": str(albaran_id),
+                        "[Company]":str(company_name),
+                        "[Address]":str(address),
+                        "[City]":str(municipality),
+                        "[Code]":str(code),
+                        "[Cif]":str(cif)
+                    }
+                    folder_id = st.secrets["folder_id"]
 
-                        document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(transformed_name))
-                        Transform.rename_file_in_drive(document_id,albaran_id,date_str)
-                        new_document_id = Transform.convert_to_google_docs(document_id, True)
-                        Load.replace_placeholders_in_doc(new_document_id,customer_details)
+                    document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(transformed_name))
+                    Transform.rename_file_in_drive(document_id,albaran_id,date_str)
+                    new_document_id = Transform.convert_to_google_docs(document_id, True)
+                    Load.replace_placeholders_in_doc(new_document_id,customer_details)
 
-                        result_dict = {
-                                "[Route]":str(route),
-                                "[Work done]": str(description),
-                                "[Obs]":str(obs),
-                                "[Exit]":str(exit_units),
-                                "[Km]":str(km_units),
-                                "[Crane]":str(crane),
-                                "[Discharge]":str(discharge_units)
-                                }
-
-
-                        result_dict["[dni]"] = str(dni)
-                        result_dict["[price]"] = str(estimation)
-
-                        print(result_dict)
-                        Load.replace_placeholders_in_doc(new_document_id,result_dict)
-                        image_id, image_link= Load.upload_image_to_google_drive(canvas_result)
-                        Load.insert_image_in_document(new_document_id, image_link)
-                        Extract.delete_file_from_image_url(image_link)
-                        Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
-                        # Extract.delete_file_from_google_drive(new_document_id)
-
-                        st.success("¡Guardado con éxito!")
-
-                    elif submit_button and consent==False and complete_information and saving_ready:
-                        Load().append_row("Base_de_datos_clientes", "clientes", row_creation)
-                        Load().append_row("Base_de_datos_clientes", "albarán", row)
-                        if complete_information_price:
-                            Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
+                    result_dict = {
+                            "[Route]":str(route),
+                            "[Work done]": str(description),
+                            "[Obs]":str(obs),
+                            "[Exit]":str(exit_units),
+                            "[Km]":str(km_units),
+                            "[Crane]":str(crane),
+                            "[Discharge]":str(discharge_units)
+                            }
 
 
-                        customer_details ={
-                            "[Date]":str(date_str),
-                            "[albarán_id]": str(albaran_id),
-                            "[Company]":str(company_name),
-                            "[Address]":str(address),
-                            "[City]":str(municipality),
-                            "[Code]":str(code),
-                            "[Cif]":str(cif)
-                        }
-                        folder_id = st.secrets["folder_id"]
+                    result_dict["[dni]"] = str(dni)
+                    result_dict["[price]"] = str(estimation)
 
-                        document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(transformed_name))
-                        Transform.rename_file_in_drive(document_id,albaran_id,date_str)
-                        new_document_id = Transform.convert_to_google_docs(document_id, True)
-                        Load.replace_placeholders_in_doc(new_document_id,customer_details)
+                    print(result_dict)
+                    Load.replace_placeholders_in_doc(new_document_id,result_dict)
+                    image_id, image_link= Load.upload_image_to_google_drive(canvas_result)
+                    Load.insert_image_in_document(new_document_id, image_link)
+                    Extract.delete_file_from_image_url(image_link)
+                    Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
+                    # Extract.delete_file_from_google_drive(new_document_id)
 
-                        result_dict = {
-                                "[Route]":str(route),
-                                "[Work done]": str(description),
-                                "[Obs]":str(obs),
-                                "[Exit]":str(exit_units),
-                                "[Km]":str(km_units),
-                                "[Crane]":str(crane),
-                                "[Discharge]":str(discharge_units)
-                                }
+                    st.success("¡Guardado con éxito!")
+
+                elif submit_button and consent==False and complete_information and saving_ready:
+                    Load().append_row("Base_de_datos_clientes", "clientes", row_creation)
+                    Load().append_row("Base_de_datos_clientes", "albarán", row)
+                    if complete_information_price:
+                        Load().append_row("Base_de_datos_clientes", "precios unitarios", row_price)
 
 
-                        result_dict["[dni]"] = str(" ")
-                        result_dict["[price]"] = str(estimation)
+                    customer_details ={
+                        "[Date]":str(date_str),
+                        "[albarán_id]": str(albaran_id),
+                        "[Company]":str(company_name),
+                        "[Address]":str(address),
+                        "[City]":str(municipality),
+                        "[Code]":str(code),
+                        "[Cif]":str(cif)
+                    }
+                    folder_id = st.secrets["folder_id"]
 
-                        print(result_dict)
-                        Load.replace_placeholders_in_doc(new_document_id,result_dict)
-                        Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
-                        # Extract.delete_file_from_google_drive(new_document_id)
+                    document_id = Load.upload_to_drive('template.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ,folder_id,str(transformed_name))
+                    Transform.rename_file_in_drive(document_id,albaran_id,date_str)
+                    new_document_id = Transform.convert_to_google_docs(document_id, True)
+                    Load.replace_placeholders_in_doc(new_document_id,customer_details)
 
-                        st.success("¡Guardado con éxito!")
+                    result_dict = {
+                            "[Route]":str(route),
+                            "[Work done]": str(description),
+                            "[Obs]":str(obs),
+                            "[Exit]":str(exit_units),
+                            "[Km]":str(km_units),
+                            "[Crane]":str(crane),
+                            "[Discharge]":str(discharge_units)
+                            }
 
-            else:
-                st.warning("No se encontraron datos para la compañía seleccionada.")
+
+                    result_dict["[dni]"] = str(" ")
+                    result_dict["[price]"] = str(estimation)
+
+                    print(result_dict)
+                    Load.replace_placeholders_in_doc(new_document_id,result_dict)
+                    Transform.convert_doc_to_pdf_and_save(new_document_id,f"{albaran_id}_{date_str}")
+                    # Extract.delete_file_from_google_drive(new_document_id)
+
+                    st.success("¡Guardado con éxito!")
+
+                else:
+                    st.warning("No se encontraron datos para la compañía seleccionada.")
 
 # Run the app
 if __name__ == "__main__":
