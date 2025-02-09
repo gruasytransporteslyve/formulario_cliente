@@ -499,6 +499,7 @@ def app():
                             st.warning("Rellena toda la información sobre precios")
                         if minimum_service:
                             try:
+                                minimum_service_price = 0
                                 total_price = minimum_service_price
                             except:
                                 total_price = 0
