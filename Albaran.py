@@ -134,6 +134,7 @@ def app():
                     st.write(f"Precio estimado:{round(float(total_price),2)}€")
                 elif not df_price_filtered.empty and minimum_service:
                     try:
+                        price_minimum_service = float(df_max_p['precio_servicio_mínimo'])
                         total_price =  price_minimum_service
                     except:
                         total_price = 0
@@ -498,6 +499,7 @@ def app():
                             st.warning("Rellena toda la información sobre precios")
                         if minimum_service:
                             try:
+                                minimum_service_price = 0
                                 total_price = minimum_service_price
                             except:
                                 total_price = 0
