@@ -107,18 +107,18 @@ def app():
 
                 if consent:
                     dni = st.text_input("Escribe tu DNI:")
-                # Create a canvas component
-                canvas_result = st_canvas(
-                    fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
-                    stroke_width=3,#stroke_width,
-                    stroke_color='#000',#stroke_color,
-                    background_color='White',#bg_color,
-                    update_streamlit=True,
-                    height=150,
-                    drawing_mode="freedraw",
-                    point_display_radius= 0,
-                    key="app",
-                )
+                    # Create a canvas component
+                    canvas_result = st_canvas(
+                        fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+                        stroke_width=3,#stroke_width,
+                        stroke_color='#000',#stroke_color,
+                        background_color='White',#bg_color,
+                        update_streamlit=True,
+                        height=150,
+                        drawing_mode="freedraw",
+                        point_display_radius= 0,
+                        key="app",
+                    )
 
 
                 if not df_price_filtered.empty and not minimum_service:
@@ -157,26 +157,37 @@ def app():
                     date_str = date.strftime("%Y-%m-%d")
                     ingestion_date = datetime.now()
                     ingestion_date_str = ingestion_date.strftime("%Y-%m-%d %H:%M:%S")
+                    # total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                    # if minimum_service:
+                    #     total_price =  minimum_service_price
 
-                    customer_id = str(uuid4())
-                    version = 1
+                    # st.write(f"Precio estimado:{round(float(total_price),2)}€")
+                    # estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
+                    # if estimation == "No":
+                    #         estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01,value=None)
+                    # else:
+                    #     estimation = round(total_price,2)
+
+                    # customer_id = str(uuid4())
+                    # version = 1
 
                     if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                         complete_information_price = True
                         row_price = [customer_id, transformed_name, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version,ingestion_date_str]
-                        if minimum_service:
-                            total_price = minimum_service_price
-                        elif not minimum_service:
-                            total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
-                        st.write(f"Precio estimado:{round(float(total_price),2)}€")
-                        estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
-                        if estimation == "No":
-                            estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01,value=None)
-                        else:
-                            estimation = round(total_price,2)
                     else:
                         complete_information_price = False
                         st.warning("Rellena toda la información sobre precios")
+                    if minimum_service:
+                        total_price = minimum_service_price
+                    elif not minimum_service:
+                        total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                    st.write(f"Precio estimado:{round(float(total_price),2)}€")
+                    estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
+                    if estimation == "No":
+                        estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01,value=None)
+                    else:
+                        estimation = round(total_price,2)
+
                     if complete_information_price and complete_information:
                         row.append(estimation)
 
@@ -471,44 +482,40 @@ def app():
                         customer_id = str(uuid4())
                         version = 1
 
-
                         if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
-                                    complete_information_price = True
-                                    row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version,ingestion_date_str]
-                                    if minimum_service:
-                                        total_price = minimum_service_price
-                                    elif not minimum_service:
-                                        total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
-                                    st.write(f"Precio estimado:{round(float(total_price),2)}€")
-                                    estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
-                                    if estimation == "No":
-                                        estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01,value=None)
-                                    else:
-                                        estimation = round(total_price,2)
-                                    if complete_information:
-                                        row.append(estimation)
+                            complete_information_price = True
+                            row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version,ingestion_date_str]
                         else:
                             complete_information_price = False
                             st.warning("Rellena toda la información sobre precios")
-
-
-
+                        if minimum_service:
+                            total_price = minimum_service_price
+                        elif not minimum_service:
+                            total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                        st.write(f"Precio estimado:{round(float(total_price),2)}€")
+                        estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
+                        if estimation == "No":
+                            estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01,value=None)
+                        else:
+                            estimation = round(total_price,2)
+                        if complete_information:
+                            row.append(estimation)
 
 
                 if consent:
                     dni = st.text_input("Escribe tu DNI:")
-                # Create a canvas component
-                canvas_result = st_canvas(
-                    fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
-                    stroke_width=3,#stroke_width,
-                    stroke_color='#000',#stroke_color,
-                    background_color='White',#bg_color,
-                    update_streamlit=True,
-                    height=150,
-                    drawing_mode="freedraw",
-                    point_display_radius= 0,
-                    key="app",
-                )
+                    # Create a canvas component
+                    canvas_result = st_canvas(
+                        fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+                        stroke_width=3,#stroke_width,
+                        stroke_color='#000',#stroke_color,
+                        background_color='White',#bg_color,
+                        update_streamlit=True,
+                        height=150,
+                        drawing_mode="freedraw",
+                        point_display_radius= 0,
+                        key="app",
+                    )
 
 
             # Form for submission
