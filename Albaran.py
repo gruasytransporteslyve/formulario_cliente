@@ -81,10 +81,10 @@ def app():
                 driver = st.selectbox(f'Indica el chófer para este trabajo:', ("Chófer 1", "Chófer 2", "Chófer 3"), key='driver', index=None)
                 route = st.text_input(f'Indica la ruta para este trabajo:')
                 route = Transform.capital_letters(route)
-                exit_units = st.number_input(f'¿Cuántas unidades de salida?',step=1, min_value=0)
-                km_units = st.number_input(f'¿Cuántos kilómetros?',step=0.01, min_value=0.0)
-                crane = st.number_input(f'¿Cuántas unidades de trabajo de grúa?',step=1, min_value=0)
-                discharge_units = st.number_input(f'¿Cuántas unidades de descarga?',step=1, min_value=0)
+                exit_units = st.number_input(f'¿Cuántas unidades de salida?',step=1, min_value=0,value=None)
+                km_units = st.number_input(f'¿Cuántos kilómetros?',step=0.01, min_value=0.0,value=None)
+                crane = st.number_input(f'¿Cuántas unidades de trabajo de grúa?',step=1, min_value=0,value=None)
+                discharge_units = st.number_input(f'¿Cuántas unidades de descarga?',step=1, min_value=0,value=None)
                 minimum_service = st.checkbox("Servicio Mínimo")
                 description = st.text_area('Descripción Trabajos realizados:')
                 obs = st.text_area(f'Observaciones')
@@ -168,7 +168,7 @@ def app():
                         st.write(f"Precio estimado:{round(float(total_price),2)}€")
                         estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
                         if estimation == "No":
-                            estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01)
+                            estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01,value=None)
                         else:
                             estimation = round(total_price,2)
                     else:
@@ -428,10 +428,10 @@ def app():
                 driver = st.selectbox('Indica el chófer para este trabajo:', ("Chófer 1", "Chófer 2", "Chófer 3"), key='driver', index=None)
                 route = st.text_input('Ruta:')
                 route = Transform.capital_letters(route)
-                exit_units = st.number_input(f'¿Cuántas unidades de salida?',step=1, min_value=0)
-                km_units = st.number_input(f'¿Cuántos kilómetros?',step=0.01, min_value=0.0)
-                crane = st.number_input(f'¿Cuántas unidades de trabajo de grúa?',step=1, min_value=0)
-                discharge_units = st.number_input(f'¿Cuántas unidades de descarga?',step=1, min_value=0)
+                exit_units = st.number_input(f'¿Cuántas unidades de salida?',step=1, min_value=0,value=None)
+                km_units = st.number_input(f'¿Cuántos kilómetros?',step=0.01, min_value=0.0,value=None)
+                crane = st.number_input(f'¿Cuántas unidades de trabajo de grúa?',step=1, min_value=0,value=None)
+                discharge_units = st.number_input(f'¿Cuántas unidades de descarga?',step=1, min_value=0,value=None)
                 minimum_service = st.checkbox("Servicio Mínimo")
                 description = st.text_area('Descripción Trabajos realizados:')
                 obs = st.text_area(f'Observaciones')
@@ -451,29 +451,11 @@ def app():
                 if complete_information and complete_information_price:
                     row.append(estimation)
 
-                    # if not minimum_service:
-                    #     total_price = price_exit_units * exit_units + price_km_units * km_units + price_crane * crane + price_discharge_units * discharge_units
-                    # elif minimum_service:
-                    #     total_price = price_exit_units_ms * exit_units + price_km_units_ms * km_units + price_crane_ms * crane + price_discharge_units_ms * discharge_units
-
-                    # if route and price_exit_units and price_km_units and price_crane and price_discharge_units and price_exit_units_ms and price_km_units_ms and price_crane_ms and price_discharge_units_ms:
-                    #     complete_information_price = True
-                    #     st.write(f"Precio estimado:{round(float(total_price),2)}€")
-                    #     estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
-                    #     if estimation == "No":
-                    #             estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01)
-                    #     else:
-                    #         estimation = round(total_price,2)
-
-                    # else:
-                    #     complete_information_price = False
-                    #     st.warning("Rellena toda la información sobre precios")
-
 
                 if df_price_filtered.empty:
                     option = st.radio("Este cliente no tiene rango de precios registrado. ¿Quieres añadir un importe estimado de este albarán o añadir todos los precios?", options=["Añadir Manualmente", "Añadir todos los precios"])
                     if option =="Añadir Manualmente":
-                        estimation = st.number_input("Añade el importe de este albarán que consideres más acertado", min_value=0.0,step=0.01)
+                        estimation = st.number_input("Añade el importe de este albarán que consideres más acertado", min_value=0.0,step=0.01,value=None)
                         if complete_information:
                             row.append(estimation)
                             complete_information_price = False
@@ -486,51 +468,7 @@ def app():
                         customer_id = str(uuid4())
                         version = 1
 
-                        # if route and exit_price and km_price and crane_price and discharge_price and exit_price_ms and km_price_ms and crane_price_ms and discharge_price_ms:
-                        #     complete_information_price = True
-                        #     row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,exit_price_ms,km_price_ms,crane_price_ms,discharge_price_ms, date_str,version]
-                        #     if minimum_service:
-                        #         total_price = exit_price_ms * exit_units + km_price_ms * km_units + crane_price_ms * crane + discharge_price_ms * discharge_units
-                        #     elif not minimum_service:
-                        #         total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
-                        #     st.write(f"Precio estimado:{round(float(total_price),2)}€")
-                        #     estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
-                        #     if estimation == "No":
-                        #         estimation = st.number_input("Añade el valor que consideres más acertado", min_value=0.0,step=0.01)
-                        #     else:
-                        #         estimation = round(total_price,2)
-                        # else:
-                        #     complete_information_price = False
-                        #     st.warning("Rellena toda la información sobre precios")
 
-
-
-
-
-                # truck = st.selectbox(f'Indica el camión que se ha necesitado:', ("Camión 1", "Camión 2", "Camión 3", "Camión 4"), key=f'truck', index=None)
-                # driver = st.selectbox(f'Indica el chófer para este trabajo:', ("Chófer 1", "Chófer 2", "Chófer 3"), key='driver', index=None)
-                # route = st.text_input('Ruta:')
-                # route = Transform.capital_letters(route)
-                # exit_units = st.number_input(f'¿Cuántas unidades de salida?',step=1)
-                # km_units = st.number_input(f'¿Cuántos kilómetros?',step=1)
-                # crane = st.number_input(f'¿Cuántas unidades de trabajo de grúa?',step=1)
-                # discharge_units = st.number_input(f'¿Cuántas unidades de descarga?',step=1)
-                # minimum_service = st.checkbox("Servicio Mínimo")
-                # description = st.text_area('Descripción Trabajos realizados:')
-                # obs = st.text_area(f'Observaciones')
-
-
-                # if driver and truck:
-                #     row = [str(albaran_id), customer_id, company_name, email, route, description,obs,exit_units,
-                #        km_units, crane, discharge_units, minimum_service, truck, driver, date_str, consent,ingestion_date_str,estimation]
-                #     complete_information = True
-
-                # if not driver:
-                #     st.warning("Selecciona el conductor que ha realizado la tarea.")
-                #     complete_information = False
-                # if not truck:
-                #     st.warning("Selecciona el camión que se ha utilizado en la tarea.")
-                #     complete_information = False
                         if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                                     complete_information_price = True
                                     row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version]
