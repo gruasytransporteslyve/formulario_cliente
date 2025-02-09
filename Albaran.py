@@ -127,11 +127,16 @@ def app():
                     price_crane = float(df_max_p['precio_trabajo_grúa'])
                     price_discharge_units = float(df_max_p['precio_descarga'])
                     price_minimum_service = float(df_max_p['precio_servicio_mínimo'])
-
-                    total_price = price_exit_units * exit_units + price_km_units * km_units + price_crane * crane + price_discharge_units * discharge_units
+                    try:
+                        total_price = price_exit_units * exit_units + price_km_units * km_units + price_crane * crane + price_discharge_units * discharge_units
+                    except:
+                        total_price = 0
                     st.write(f"Precio estimado:{round(float(total_price),2)}€")
                 elif not df_price_filtered.empty and minimum_service:
-                    total_price =  price_minimum_service
+                    try:
+                        total_price =  price_minimum_service
+                    except:
+                        total_price = 0
                     st.write(f"Precio estimado:{round(float(total_price),2)}€")
 
                 estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
@@ -167,10 +172,16 @@ def app():
                         complete_information_price = False
                         st.warning("Rellena toda la información sobre precios")
                     if minimum_service:
-                        total_price = minimum_service_price
+                        try:
+                            total_price = minimum_service_price
+                        except:
+                            total_price = 0
                         st.write(f"Precio estimado:{round(float(total_price),2)}€")
                     elif not minimum_service:
-                        total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                        try:
+                            total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                        except:
+                            total_price = 0
                         st.write(f"Precio estimado:{round(float(total_price),2)}€")
                     estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
                     if estimation == "No":
@@ -418,10 +429,16 @@ def app():
                     complete_information_price = True
 
                     if minimum_service:
-                        total_price = price_minimum_service
+                        try:
+                            total_price = price_minimum_service
+                        except:
+                            total_price = 0
                         st.write(f"Precio estimado:{round(float(total_price),2)}€")
                     elif not minimum_service:
-                        total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                        try:
+                            total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                        except:
+                            total_price = 0
                         st.write(f"Precio estimado:{round(float(total_price),2)}€")
                     estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
                     if estimation == "No":
@@ -480,9 +497,15 @@ def app():
                             complete_information_price = False
                             st.warning("Rellena toda la información sobre precios")
                         if minimum_service:
-                            total_price = minimum_service_price
+                            try:
+                                total_price = minimum_service_price
+                            except:
+                                total_price = 0
                         elif not minimum_service:
-                            total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                            try:
+                                total_price = exit_price * exit_units + km_price * km_units + crane_price * crane + discharge_price * discharge_units
+                            except:
+                                total_price = 0
                         st.write(f"Precio estimado:{round(float(total_price),2)}€")
                         estimation = st.radio("¿Estás de acuerdo con este presupuesto?", options=["Sí", "No"])
                         if estimation == "No":
