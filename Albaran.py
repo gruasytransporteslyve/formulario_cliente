@@ -474,7 +474,7 @@ def app():
 
                         if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                                     complete_information_price = True
-                                    row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version]
+                                    row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version,ingestion_date_str]
                                     if minimum_service:
                                         total_price = minimum_service_price
                                     elif not minimum_service:
