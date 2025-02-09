@@ -17,6 +17,7 @@ def app():
     data = Extract.load_data("Base_de_datos_clientes", "clientes")
     albaran = Extract.load_data("Base_de_datos_clientes", "albarán")
     prices = Extract.load_data("Base_de_datos_clientes", "precios unitarios")
+    total_price = 0
 
     if not data.empty:
     # Extraer valores únicos de la columna 'nombre'
@@ -40,7 +41,6 @@ def app():
         if company_name:
             # Filter data based on selected company name
             df_filtered = data[data['razón_social'] == company_name]
-
 
             if not df_filtered.empty:  # Check if df_filtered is not empty
                 df_max_v = df_filtered.loc[df_filtered['versión'].idxmax()]
