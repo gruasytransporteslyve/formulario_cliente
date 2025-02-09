@@ -154,13 +154,16 @@ def app():
                     crane_price = st.number_input(f"Precio unitario de trabajo de grúa:", min_value=0.0,step=0.01,value=None)
                     discharge_price = st.number_input(f"Precio unitario por descarga:", min_value=0.0,step=0.01,value=None)
                     minimum_service_price = st.number_input(f"Precio por servicion mínimo:", min_value=0.0,step=0.01,value=None)
+                    date_str = date.strftime("%Y-%m-%d")
+                    ingestion_date = datetime.now()
+                    ingestion_date_str = ingestion_date.strftime("%Y-%m-%d %H:%M:%S")
 
                     customer_id = str(uuid4())
                     version = 1
 
                     if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                         complete_information_price = True
-                        row_price = [customer_id, transformed_name, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version]
+                        row_price = [customer_id, transformed_name, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version,ingestion_date_str]
                         if minimum_service:
                             total_price = minimum_service_price
                         elif not minimum_service:
@@ -471,7 +474,7 @@ def app():
 
                         if exit_price and km_price and crane_price and discharge_price and minimum_service_price:
                                     complete_information_price = True
-                                    row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version]
+                                    row_price = [customer_id, transformed_name,route, exit_price,km_price,crane_price,discharge_price,minimum_service_price, date_str,version,ingestion_date_str]
                                     if minimum_service:
                                         total_price = minimum_service_price
                                     elif not minimum_service:
